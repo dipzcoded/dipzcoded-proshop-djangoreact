@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+     'cloudinary',
     'rest_framework',
      'corsheaders',
     'base.apps.BaseConfig',
@@ -126,14 +129,28 @@ USE_L10N = True
 USE_TZ = True
 
 
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME' : env('CLOUD_NAME'),
+    'API_KEY' : env('API_KEY'),
+    'API_SECRET' : env('API_SECRET'),
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIR = [
+    BASE_DIR / 'static'
+]
+MEDIA_URL = '/mernshop/'  # or any prefix you choose
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 CORS_ALLOW_ALL_ORIGINS = True
+
