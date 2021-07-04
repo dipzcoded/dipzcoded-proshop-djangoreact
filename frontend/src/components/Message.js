@@ -1,5 +1,5 @@
 import { Alert } from "react-bootstrap";
-function Message({ message, variant }) {
+function Message({ children, variant }) {
   return (
     <Alert
       style={{
@@ -7,7 +7,7 @@ function Message({ message, variant }) {
       }}
       variant={variant}
     >
-      {message}
+      {children}
     </Alert>
   );
 }

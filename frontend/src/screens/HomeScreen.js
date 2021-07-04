@@ -13,13 +13,13 @@ function HomeScreen() {
 
   useEffect(() => {
     dispatch(getProducts());
-  }, [dispatch, getProducts]);
+  }, [dispatch]);
 
   return (
     <div>
       <h1>Latest Products</h1>
       {isLoading && <Loader />}
-      {!isLoading && error && <Message message={error} variant="danger" />}
+      {!isLoading && error && <Message variant="danger">{error}</Message>}
       {!isLoading && products?.length > 0 && !error && (
         <Row>
           {products?.map((product) => (
