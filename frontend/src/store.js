@@ -9,6 +9,7 @@ import {
   userDetailsReducer,
   userDetailsUpdateReducer,
 } from "./reducers/users";
+import { orderCreateReducer } from "./reducers/order";
 import Cookie from "js-cookie";
 const reducer = combineReducers({
   productsList: productListReducers,
@@ -18,11 +19,20 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userDetailsUpdate: userDetailsUpdateReducer,
+  orderCreate: orderCreateReducer,
 });
 
 const cartItemsFromStorage = Cookie.get("cartItems")
   ? JSON.parse(Cookie.get("cartItems"))
   : [];
+
+const shippingAddressFromStorage = Cookie.get("shippingAddress")
+  ? JSON.parse(Cookie.get("shippingAddress"))
+  : null;
+
+const paymentMethodFromStorage = Cookie.get("paymentMethod")
+  ? JSON.parse(Cookie.get("paymentMethod"))
+  : null;
 
 const userDataFromStorage = Cookie.get("userData")
   ? JSON.parse(Cookie.get("userData"))
@@ -31,6 +41,8 @@ const userDataFromStorage = Cookie.get("userData")
 const initialState = {
   cart: {
     cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+    paymentMethod: paymentMethodFromStorage,
   },
   userLogin: {
     userData: userDataFromStorage,

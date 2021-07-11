@@ -1,5 +1,11 @@
 import axios from "axios";
-import { ADD_TOCART_ITEM, REMOVE_FROMCART_ITEM } from "../types";
+import {
+  ADD_TOCART_ITEM,
+  REMOVE_FROMCART_ITEM,
+  CART_SAVE_SHIPPING_ADDRESS,
+  CART_SAVE_PAYMENT_METHOD,
+} from "../types";
+
 import Cookie from "js-cookie";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
@@ -22,6 +28,27 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const saveShippingAddress =
+  ({ address, postalCode, country, city }) =>
+  async (dispatch) => {
+    dispatch({
+      type: CART_SAVE_SHIPPING_ADDRESS,
+      payload: { address, postalCode, country, city },
+    });
+    Cookie.set(
+      "shippingAddress",
+      JSON.stringify({ address, postalCode, country, city })
+    );
+  };
+
+export const savePaymentMethod = (payment) => async (dispatch) => {
+  dispatch({
+    type: CART_SAVE_PAYMENT_METHOD,
+    payload: payment,
+  });
+  Cookie.set("paymentMethod", JSON.stringify(payment));
 };
 
 export const removeFromCart = (id) => async (dispatch, getState) => {

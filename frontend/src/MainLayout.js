@@ -8,6 +8,9 @@ import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import UserProfileScreen from "./screens/UserProfileScreen";
+import ShippingScreen from "./screens/ShippingScreen";
+import PaymentScreen from "./screens/PaymentScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 function MainLayout() {
   return (
@@ -22,6 +25,9 @@ function MainLayout() {
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/register" component={RegisterScreen} />
             <Route exact path="/profile" component={UserProfileScreen} />
+            <Route exact path="/shipping" component={ShippingScreen} />
+            <Route exact path="/payment" component={PaymentScreen} />
+            <Route exact path="/placeorder" component={PlaceOrderScreen} />
           </Switch>
         </Container>
       </main>

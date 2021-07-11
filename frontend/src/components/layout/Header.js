@@ -21,12 +21,20 @@ function Header() {
   };
 
   const authUser = (
-    <NavDropdown title={username} id="username">
-      <LinkContainer to="/profile">
-        <NavDropdown.Item>Profile</NavDropdown.Item>
+    <>
+      <LinkContainer to="/cart">
+        <Nav.Link>
+          <i className="fas fa-shopping-cart"></i> Cart
+        </Nav.Link>
       </LinkContainer>
-      <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
-    </NavDropdown>
+
+      <NavDropdown title={username} id="username">
+        <LinkContainer to="/profile">
+          <NavDropdown.Item>Profile</NavDropdown.Item>
+        </LinkContainer>
+        <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
+      </NavDropdown>
+    </>
   );
 
   const guestUser = (
