@@ -14,10 +14,14 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+import stripe
 import environ
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
+
+
+stripe.api_key = env('STRIPE_SECRETKEY')
 
 
 # Quick-start development settings - unsuitable for production

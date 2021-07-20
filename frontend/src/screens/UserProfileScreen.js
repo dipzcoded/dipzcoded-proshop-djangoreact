@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Table } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails, updateUserDetails } from "../actions/users";
+import { getMyOrders } from "../actions/order";
 import { useDispatch, useSelector } from "react-redux";
 import { USER_DETAILS_UPDATE_RESET } from "../types";
 
@@ -28,6 +30,11 @@ function UserProfileScreen() {
   const { success: updateSuccess, error: updateError } = useSelector(
     (state) => state.userDetailsUpdate
   );
+  const {
+    orders,
+    isLoading: myOrdersLoading,
+    error: myOrdersError,
+  } = useSelector((state) => state.myOrders);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -39,6 +46,7 @@ function UserProfileScreen() {
     } else {
       if (!userInfo || !userInfo?.name || updateSuccess) {
         dispatch(getUserDetails("profile"));
+        dispatch(getMyOrders());
       } else {
         setUserDetails({
           ...userDetails,
@@ -47,15 +55,7 @@ function UserProfileScreen() {
         });
       }
     }
-  }, [
-    userData,
-    history,
-    dispatch,
-    getUserDetails,
-    userInfo,
-    setUserDetails,
-    updateSuccess,
-  ]);
+  }, [userData, history, dispatch, userInfo, setUserDetails, updateSuccess]);
 
   const onChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
@@ -86,7 +86,9 @@ function UserProfileScreen() {
         <h2>User Profile</h2>
 
         {isLoading && <Loader />}
+
         {message && <Message variant="danger">{message}</Message>}
+
         {error && <Message variant="danger">{error}</Message>}
         {updateError && <Message variant="danger">{updateError}</Message>}
         <Form onSubmit={onSubmit}>
@@ -142,6 +144,60 @@ function UserProfileScreen() {
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>
+        {myOrdersLoading && <Loader />}
+        {myOrdersError ? (
+          <Message variant="danger">{myOrdersError}</Message>
+        ) : (
+          <Table striped responsive className="table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders?.map((el) => (
+                <tr key={el?._id}>
+                  <td>{el?._id}</td>
+                  <td>{el?.createdAt.substring(0, 10)}</td>
+                  <td>${el?.totalPrice}</td>
+                  <td>
+                    {el.isPaid ? (
+                      el?.paidAt.substring(0, 10)
+                    ) : (
+                      <i
+                        className="fas fa-times"
+                        style={{
+                          color: "red",
+                        }}
+                      ></i>
+                    )}
+                  </td>
+                  <td>
+                    {el?.isDelivered ? (
+                      el?.deliveredAt
+                    ) : (
+                      <i
+                        className="fas fa-times"
+                        style={{
+                          color: "red",
+                        }}
+                      ></i>
+                    )}
+                  </td>
+                  <td>
+                    <LinkContainer to={`/order/${el?._id}`}>
+                      <Button className="btn-sm">Details</Button>
+                    </LinkContainer>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   );

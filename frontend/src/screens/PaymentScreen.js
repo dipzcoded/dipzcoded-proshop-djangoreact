@@ -19,6 +19,7 @@ function PaymentScreen() {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
+    console.log(paymentMethod);
     history.push("/placeorder");
   };
 
@@ -33,7 +34,18 @@ function PaymentScreen() {
             label="PayPal or Credit Card"
             id="paypal"
             name="paymentMethod"
-            checked
+            value="PayPal"
+            checked={paymentMethod === "PayPal"}
+            onChange={(e) => setPaymentMethod(e.target.value)}
+          ></Form.Check>
+
+          <Form.Check
+            type="radio"
+            label="Stripe"
+            id="stripe"
+            name="paymentMethod"
+            value="Stripe"
+            checked={paymentMethod === "Stripe"}
             onChange={(e) => setPaymentMethod(e.target.value)}
           ></Form.Check>
         </Form.Group>

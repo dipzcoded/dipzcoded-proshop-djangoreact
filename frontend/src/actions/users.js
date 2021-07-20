@@ -14,6 +14,7 @@ import {
   USER_DETAILS_UPDATE_REQUEST,
   USER_DETAILS_UPDATE_FAIL,
   USER_DETAILS_RESET,
+  ORDER_MY_LIST_RESET,
 } from "../types";
 import Cookie from "js-cookie";
 
@@ -138,5 +139,6 @@ export const updateUserDetails =
 export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: ORDER_MY_LIST_RESET });
   Cookie.remove("userData");
 };
