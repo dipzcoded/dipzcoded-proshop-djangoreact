@@ -10,6 +10,7 @@ import {
   userDetailsUpdateReducer,
   userAdminListReducer,
   userAdminListDeleteReducer,
+  userAdminListUpdateReducer,
 } from "./reducers/users";
 import {
   orderCreateReducer,
@@ -32,6 +33,7 @@ const reducer = combineReducers({
   myOrders: getMyOrdersReducer,
   userAdminList: userAdminListReducer,
   userAdminListDelete: userAdminListDeleteReducer,
+  userAdminListUpdate: userAdminListUpdateReducer,
 });
 
 const cartItemsFromStorage = Cookie.get("cartItems")

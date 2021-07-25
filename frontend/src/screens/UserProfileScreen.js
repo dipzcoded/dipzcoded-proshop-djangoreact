@@ -7,7 +7,7 @@ import Loader from "../components/Loader";
 import { getUserDetails, updateUserDetails } from "../actions/users";
 import { getMyOrders } from "../actions/order";
 import { useDispatch, useSelector } from "react-redux";
-import { USER_DETAILS_UPDATE_RESET } from "../types";
+import { USER_DETAILS_UPDATE_RESET, USER_DETAILS_RESET } from "../types";
 
 function UserProfileScreen() {
   const history = useHistory();
@@ -44,7 +44,13 @@ function UserProfileScreen() {
     if (!userData) {
       history.push("/login");
     } else {
-      if (!userInfo || !userInfo?.name || updateSuccess) {
+      if (
+        !userInfo ||
+        !userInfo?.name ||
+        updateSuccess ||
+        userData._id !== userInfo._id
+      ) {
+        dispatch({ type: USER_DETAILS_RESET });
         dispatch(getUserDetails("profile"));
         dispatch(getMyOrders());
       } else {

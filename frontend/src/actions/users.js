@@ -22,6 +22,9 @@ import {
   USER_ADMIN_LIST_DELETE_SUCCESS,
   USER_ADMIN_LIST_DELETE_REQUEST,
   USER_ADMIN_LIST_DELETE_FAIL,
+  USER_ADMIN_LIST_UPDATE_FAIL,
+  USER_ADMIN_LIST_UPDATE_SUCCESS,
+  USER_ADMIN_LIST_UPDATE_REQUEST,
 } from "../types";
 import Cookie from "js-cookie";
 
@@ -188,6 +191,33 @@ export const adminDeleteUserById = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const adminUpdateUserById =
+  (id, formData) => async (dispatch, getState) => {
+    const { token } = getState().userLogin.userData;
+    try {
+      dispatch({ type: USER_ADMIN_LIST_UPDATE_REQUEST });
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const body = JSON.stringify(formData);
+
+      await axios.patch(`/api/users/update/${id}/`, body, config);
+      dispatch({ type: USER_ADMIN_LIST_UPDATE_SUCCESS });
+    } catch (error) {
+      dispatch({
+        type: USER_ADMIN_LIST_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });

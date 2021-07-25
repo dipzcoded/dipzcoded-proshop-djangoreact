@@ -22,6 +22,10 @@ import {
   USER_ADMIN_LIST_DELETE_REQUEST,
   USER_ADMIN_LIST_DELETE_RESET,
   USER_ADMIN_LIST_DELETE_SUCCESS,
+  USER_ADMIN_LIST_UPDATE_FAIL,
+  USER_ADMIN_LIST_UPDATE_REQUEST,
+  USER_ADMIN_LIST_UPDATE_RESET,
+  USER_ADMIN_LIST_UPDATE_SUCCESS,
 } from "../types";
 
 export const userLoginReducer = (state = { userData: null }, action) => {
@@ -227,6 +231,39 @@ export const userAdminListDeleteReducer = (state = {}, action) => {
       };
 
     case USER_ADMIN_LIST_DELETE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const userAdminListUpdateReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ADMIN_LIST_UPDATE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case USER_ADMIN_LIST_UPDATE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        success: true,
+        error: null,
+      };
+
+    case USER_ADMIN_LIST_UPDATE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case USER_ADMIN_LIST_UPDATE_RESET:
       return {};
 
     default:

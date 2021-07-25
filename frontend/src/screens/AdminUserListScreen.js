@@ -4,7 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { adminGetAllUsers, adminDeleteUserById } from "../actions/users";
-import { USER_ADMIN_LIST_DELETE_RESET } from "../types";
+import { USER_ADMIN_LIST_DELETE_RESET, USER_DETAILS_RESET } from "../types";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,6 +19,7 @@ function AdminUserListScreen() {
 
   useEffect(() => {
     if ((userData && userData?.isAdmin) || success) {
+      dispatch({ type: USER_DETAILS_RESET });
       dispatch({ type: USER_ADMIN_LIST_DELETE_RESET });
       dispatch(adminGetAllUsers());
     } else {
@@ -68,7 +69,7 @@ function AdminUserListScreen() {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/admin/user/${user?._id}`}>
+                    <LinkContainer to={`/admin/user/${user?._id}/edit`}>
                       <Button variant="light" className="btn-sm">
                         <i className="fas fa-edit"></i>
                       </Button>
