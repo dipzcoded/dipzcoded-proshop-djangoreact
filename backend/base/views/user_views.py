@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import response
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -66,3 +67,11 @@ def getAllUsers(request):
     users = User.objects.all()
     serializer = UserSerializer(users,many=True)
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def deleteUserById(request,pk):
+    userForDeletion = User.objects.get(id = pk)
+    userForDeletion.delete()
+    return Response('User was deleted')

@@ -15,6 +15,13 @@ import {
   USER_DETAILS_UPDATE_FAIL,
   USER_DETAILS_RESET,
   ORDER_MY_LIST_RESET,
+  USER_ADMIN_LIST_RESET,
+  USER_ADMIN_LIST_FAIL,
+  USER_ADMIN_LIST_SUCCESS,
+  USER_ADMIN_LIST_REQUEST,
+  USER_ADMIN_LIST_DELETE_SUCCESS,
+  USER_ADMIN_LIST_DELETE_REQUEST,
+  USER_ADMIN_LIST_DELETE_FAIL,
 } from "../types";
 import Cookie from "js-cookie";
 
@@ -136,9 +143,56 @@ export const updateUserDetails =
     }
   };
 
+export const adminGetAllUsers = () => async (dispatch, getState) => {
+  const { token } = getState().userLogin.userData;
+  try {
+    dispatch({ type: USER_ADMIN_LIST_REQUEST });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get("/api/users/", config);
+    dispatch({ type: USER_ADMIN_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_ADMIN_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const adminDeleteUserById = (id) => async (dispatch, getState) => {
+  const { token } = getState().userLogin.userData;
+  try {
+    dispatch({ type: USER_ADMIN_LIST_DELETE_REQUEST });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios.delete(`/api/users/delete/${id}/`, config);
+    dispatch({ type: USER_ADMIN_LIST_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: USER_ADMIN_LIST_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
 export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_MY_LIST_RESET });
+  dispatch({ type: USER_ADMIN_LIST_RESET });
   Cookie.remove("userData");
 };

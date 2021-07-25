@@ -20,6 +20,24 @@ function Header() {
     dispatch(logout());
   };
 
+  const isAdminUser = (
+    <>
+      <NavDropdown title="admin" id="adminmenu">
+        <LinkContainer to="/admin/userlist">
+          <NavDropdown.Item>users</NavDropdown.Item>
+        </LinkContainer>
+
+        <LinkContainer to="/admin/orderlist">
+          <NavDropdown.Item>orders</NavDropdown.Item>
+        </LinkContainer>
+
+        <LinkContainer to="/admin/productlist">
+          <NavDropdown.Item>products</NavDropdown.Item>
+        </LinkContainer>
+      </NavDropdown>
+    </>
+  );
+
   const authUser = (
     <>
       <LinkContainer to="/cart">
@@ -32,8 +50,11 @@ function Header() {
         <LinkContainer to="/profile">
           <NavDropdown.Item>Profile</NavDropdown.Item>
         </LinkContainer>
+
         <NavDropdown.Item onClick={onLogout}>Logout</NavDropdown.Item>
       </NavDropdown>
+
+      {userData?.isAdmin && isAdminUser}
     </>
   );
 

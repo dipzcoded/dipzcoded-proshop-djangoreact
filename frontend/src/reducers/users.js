@@ -14,6 +14,14 @@ import {
   USER_DETAILS_UPDATE_RESET,
   USER_DETAILS_UPDATE_SUCCESS,
   USER_DETAILS_RESET,
+  USER_ADMIN_LIST_FAIL,
+  USER_ADMIN_LIST_REQUEST,
+  USER_ADMIN_LIST_RESET,
+  USER_ADMIN_LIST_SUCCESS,
+  USER_ADMIN_LIST_DELETE_FAIL,
+  USER_ADMIN_LIST_DELETE_REQUEST,
+  USER_ADMIN_LIST_DELETE_RESET,
+  USER_ADMIN_LIST_DELETE_SUCCESS,
 } from "../types";
 
 export const userLoginReducer = (state = { userData: null }, action) => {
@@ -153,6 +161,72 @@ export const userDetailsUpdateReducer = (state = {}, action) => {
       };
 
     case USER_DETAILS_UPDATE_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const userAdminListReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ADMIN_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case USER_ADMIN_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        users: payload,
+        error: null,
+      };
+
+    case USER_ADMIN_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case USER_ADMIN_LIST_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const userAdminListDeleteReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ADMIN_LIST_DELETE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case USER_ADMIN_LIST_DELETE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        success: true,
+        error: null,
+      };
+
+    case USER_ADMIN_LIST_DELETE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case USER_ADMIN_LIST_DELETE_RESET:
       return {};
 
     default:

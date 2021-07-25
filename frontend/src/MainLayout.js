@@ -12,6 +12,7 @@ import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderDetailsScreen from "./screens/OrderDetailsScreen";
+import AdminUserListScreen from "./screens/AdminUserListScreen";
 
 function MainLayout() {
   return (
@@ -25,6 +26,11 @@ function MainLayout() {
             <Route exact path={["/cart", "/cart/:id"]} component={CartScreen} />
             <Route exact path="/login" component={LoginScreen} />
             <Route exact path="/register" component={RegisterScreen} />
+            <Route
+              exact
+              path="/admin/userlist"
+              component={AdminUserListScreen}
+            />
             <Route exact path="/profile" component={UserProfileScreen} />
             <Route exact path="/shipping" component={ShippingScreen} />
             <Route exact path="/payment" component={PaymentScreen} />

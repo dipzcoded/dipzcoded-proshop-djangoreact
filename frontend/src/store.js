@@ -8,6 +8,8 @@ import {
   userRegisterReducer,
   userDetailsReducer,
   userDetailsUpdateReducer,
+  userAdminListReducer,
+  userAdminListDeleteReducer,
 } from "./reducers/users";
 import {
   orderCreateReducer,
@@ -28,6 +30,8 @@ const reducer = combineReducers({
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
   myOrders: getMyOrdersReducer,
+  userAdminList: userAdminListReducer,
+  userAdminListDelete: userAdminListDeleteReducer,
 });
 
 const cartItemsFromStorage = Cookie.get("cartItems")
