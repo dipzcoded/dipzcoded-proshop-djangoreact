@@ -87,11 +87,31 @@ def updateOrderToPaid(request,pk):
         return Response({'detail':'order does not exist'},status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['PATCH'])
+@permission_classes([IsAdminUser])
+def updateOrderToDelivered(request,pk):
+    try:
+        order = Order.objects.get(_id=pk)
+        order.isDelivered = True
+        order.deliveredAt = datetime.now()
+        order.save()
+        return Response('Order was delivered')
+    except:
+        return Response({'detail':'order does not exist'},status=status.HTTP_404_NOT_FOUND)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getMyOrders(request):
     user = request.user
     orders = user.order_set.all()
+    serializer = OrderSerializer(orders,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getOrders(request):
+    orders = Order.objects.all()
     serializer = OrderSerializer(orders,many=True)
     return Response(serializer.data)
 

@@ -1,7 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { productListReducers, productByIDReducers } from "./reducers/products";
+import {
+  productListReducers,
+  productByIDReducers,
+  productAdminListReducer,
+  productAdminListDeleteReducer,
+} from "./reducers/products";
 import { cartReducers } from "./reducers/carts";
 import {
   userLoginReducer,
@@ -17,6 +22,8 @@ import {
   orderDetailsReducer,
   orderPayReducer,
   getMyOrdersReducer,
+  orderAdminListReducer,
+  updateOrderToDeliveredReducer,
 } from "./reducers/order";
 import Cookie from "js-cookie";
 const reducer = combineReducers({
@@ -32,8 +39,12 @@ const reducer = combineReducers({
   orderPay: orderPayReducer,
   myOrders: getMyOrdersReducer,
   userAdminList: userAdminListReducer,
+  productAdminList: productAdminListReducer,
+  orderAdminList: orderAdminListReducer,
+  productAdminListDelete: productAdminListDeleteReducer,
   userAdminListDelete: userAdminListDeleteReducer,
   userAdminListUpdate: userAdminListUpdateReducer,
+  orderAdminUpdateToDeliver: updateOrderToDeliveredReducer,
 });
 
 const cartItemsFromStorage = Cookie.get("cartItems")

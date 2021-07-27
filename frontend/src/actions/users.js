@@ -25,6 +25,8 @@ import {
   USER_ADMIN_LIST_UPDATE_FAIL,
   USER_ADMIN_LIST_UPDATE_SUCCESS,
   USER_ADMIN_LIST_UPDATE_REQUEST,
+  PRODUCT_ADMIN_LIST_RESET,
+  ORDER_ADMIN_LIST_RESET,
 } from "../types";
 import Cookie from "js-cookie";
 
@@ -224,5 +226,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_MY_LIST_RESET });
   dispatch({ type: USER_ADMIN_LIST_RESET });
+  dispatch({ type: PRODUCT_ADMIN_LIST_RESET });
+  dispatch({ type: ORDER_ADMIN_LIST_RESET });
   Cookie.remove("userData");
 };

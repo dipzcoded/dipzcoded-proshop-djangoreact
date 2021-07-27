@@ -6,6 +6,14 @@ import {
   GET_PRODUCT_BYID_REQUEST,
   GET_PRODUCT_BYID_SUCCESS,
   GET_PRODUCT_BYID_RESET,
+  PRODUCT_ADMIN_LIST_RESET,
+  PRODUCT_ADMIN_LIST_FAIL,
+  PRODUCT_ADMIN_LIST_REQUEST,
+  PRODUCT_ADMIN_LIST_SUCCESS,
+  PRODUCT_ADMIN_LIST_DELETE_FAIL,
+  PRODUCT_ADMIN_LIST_DELETE_REQUEST,
+  PRODUCT_ADMIN_LIST_DELETE_RESET,
+  PRODUCT_ADMIN_LIST_DELETE_SUCCESS,
 } from "../types";
 export const productListReducers = (state = {}, action) => {
   const { type, payload } = action;
@@ -65,6 +73,72 @@ export const productByIDReducers = (state = {}, action) => {
 
     case GET_PRODUCT_BYID_RESET:
       return { ...state, product: null, error: null };
+
+    default:
+      return state;
+  }
+};
+
+export const productAdminListReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case PRODUCT_ADMIN_LIST_REQUEST:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case PRODUCT_ADMIN_LIST_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        products: payload,
+        error: null,
+      };
+
+    case PRODUCT_ADMIN_LIST_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case PRODUCT_ADMIN_LIST_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const productAdminListDeleteReducer = (state = {}, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case PRODUCT_ADMIN_LIST_DELETE_REQUEST:
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case PRODUCT_ADMIN_LIST_DELETE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        success: true,
+        error: null,
+      };
+
+    case PRODUCT_ADMIN_LIST_DELETE_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+
+    case PRODUCT_ADMIN_LIST_DELETE_RESET:
+      return {};
 
     default:
       return state;

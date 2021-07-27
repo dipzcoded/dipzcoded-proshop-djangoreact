@@ -13,6 +13,12 @@ import {
   ORDER_MY_LIST_FAIL,
   ORDER_MY_LIST_SUCCESS,
   ORDER_MY_LIST_REQUEST,
+  ORDER_ADMIN_LIST_REQUEST,
+  ORDER_ADMIN_LIST_SUCCESS,
+  ORDER_ADMIN_LIST_FAIL,
+  UPDATE_ORDER_TO_DELIVERED_ADMIN_REQUEST,
+  UPDATE_ORDER_TO_DELIVERED_ADMIN_SUCCESS,
+  UPDATE_ORDER_TO_DELIVERED_ADMIN_FAIL,
 } from "../types";
 import Cookie from "js-cookie";
 
@@ -71,6 +77,32 @@ export const getOrderById = (id) => async (dispatch, getState) => {
   }
 };
 
+export const getOrders = () => async (dispatch, getState) => {
+  const { token } = getState().userLogin.userData;
+
+  try {
+    dispatch({ type: ORDER_ADMIN_LIST_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/orders/`, config);
+    dispatch({ type: ORDER_ADMIN_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ORDER_ADMIN_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
 export const updateOrderToPaid = (id) => async (dispatch, getState) => {
   const { token } = getState().userLogin.userData;
   try {
@@ -83,11 +115,36 @@ export const updateOrderToPaid = (id) => async (dispatch, getState) => {
     };
 
     const body = JSON.stringify({});
-    const { data } = await axios.patch(`/api/orders/${id}/pay/`, body, config);
-    dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
+    await axios.patch(`/api/orders/${id}/pay/`, body, config);
+    dispatch({ type: ORDER_PAY_SUCCESS });
   } catch (error) {
     dispatch({
       type: ORDER_PAY_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const updateOrderToDelivered = (id) => async (dispatch, getState) => {
+  const { token } = getState().userLogin.userData;
+  try {
+    dispatch({ type: UPDATE_ORDER_TO_DELIVERED_ADMIN_REQUEST });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const body = JSON.stringify({});
+    await axios.patch(`/api/orders/${id}/deliver/`, body, config);
+    dispatch({ type: UPDATE_ORDER_TO_DELIVERED_ADMIN_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ORDER_TO_DELIVERED_ADMIN_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

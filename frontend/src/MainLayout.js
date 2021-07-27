@@ -14,6 +14,8 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderDetailsScreen from "./screens/OrderDetailsScreen";
 import AdminUserListScreen from "./screens/AdminUserListScreen";
 import AdminUserEditScreen from "./screens/AdminUserEditScreen";
+import AdminProductListScreen from "./screens/AdminProductListScreen";
+import AdminOrderListScreen from "./screens/AdminOrderListScreen";
 
 function MainLayout() {
   return (
@@ -31,6 +33,16 @@ function MainLayout() {
               exact
               path="/admin/userlist"
               component={AdminUserListScreen}
+            />
+            <Route
+              exact
+              path="/admin/productlist"
+              component={AdminProductListScreen}
+            />
+            <Route
+              exact
+              path="/admin/orderlist"
+              component={AdminOrderListScreen}
             />
 
             <Route

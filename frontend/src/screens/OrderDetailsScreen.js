@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Button, Card, ListGroup, Image } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderById } from "../actions/order";
+import { getOrderById, updateOrderToDelivered } from "../actions/order";
 import StripePaymentForm from "../components/StripePaymentForm";
-import { ORDER_PAY_RESET } from "../types";
+import {
+  ORDER_PAY_RESET,
+  UPDATE_ORDER_TO_DELIVERED_ADMIN_RESET,
+} from "../types";
 
 function OrderDetailsScreen() {
   const dispatch = useDispatch();
@@ -21,17 +24,30 @@ function OrderDetailsScreen() {
     (state) => state.orderPay
   );
 
+  const { success: deliverSuccess, isLoading: deliverLoading } = useSelector(
+    (state) => state.orderAdminUpdateToDeliver
+  );
+  const { userData } = useSelector((state) => state.userLogin);
+
   const itemsPrice = order?.orderItems.reduce(
     (acc, next) => acc + next.price * next.qty,
     0
   );
 
   useEffect(() => {
-    if (!order || paySuccess) {
+    if (!userData && !userData?.token) {
+      history.push('/login?redirect="/');
+    }
+    if (!order || paySuccess || deliverSuccess) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: UPDATE_ORDER_TO_DELIVERED_ADMIN_RESET });
       dispatch(getOrderById(orderId));
     }
-  }, [dispatch, orderId, order, paySuccess]);
+  }, [dispatch, orderId, order, paySuccess, deliverSuccess, history, userData]);
+
+  const onClick = (id) => {
+    dispatch(updateOrderToDelivered(id));
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -174,6 +190,18 @@ function OrderDetailsScreen() {
                 </ListGroup.Item>
               </ListGroup>
             </Card>
+          )}
+          {deliverLoading && <Loader />}
+          {!order?.isDelivered && userData?.isAdmin && order?.isPaid && (
+            <ListGroup.Item>
+              <Button
+                type="button"
+                className="btn-block"
+                onClick={(e) => onClick(orderId)}
+              >
+                mark as deliver
+              </Button>
+            </ListGroup.Item>
           )}
         </Col>
       </Row>
