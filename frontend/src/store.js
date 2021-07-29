@@ -6,6 +6,7 @@ import {
   productByIDReducers,
   productAdminListReducer,
   productAdminListDeleteReducer,
+  createProductReviewReducer,
 } from "./reducers/products";
 import { cartReducers } from "./reducers/carts";
 import {
@@ -45,6 +46,7 @@ const reducer = combineReducers({
   userAdminListDelete: userAdminListDeleteReducer,
   userAdminListUpdate: userAdminListUpdateReducer,
   orderAdminUpdateToDeliver: updateOrderToDeliveredReducer,
+  createProduct: createProductReviewReducer,
 });
 
 const cartItemsFromStorage = Cookie.get("cartItems")

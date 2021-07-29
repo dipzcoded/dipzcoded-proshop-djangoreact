@@ -17,10 +17,14 @@ function AdminOrderListScreen() {
   const { userData } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
-    if (userData && !userData.isAdmin) {
-      history.push("/");
+    if (!userData) {
+      history.push("/login?redirect=/");
     } else {
-      dispatch(getOrders());
+      if (!userData.isAdmin) {
+        history.push("/");
+      } else {
+        dispatch(getOrders());
+      }
     }
   }, [dispatch, history, userData]);
 

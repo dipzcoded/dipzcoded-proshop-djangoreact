@@ -125,7 +125,7 @@ export const getMyOrdersReducer = (state = {}, action) => {
     case ORDER_MY_LIST_REQUEST:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
 
     case ORDER_MY_LIST_SUCCESS:
@@ -160,7 +160,7 @@ export const orderAdminListReducer = (state = {}, action) => {
     case ORDER_ADMIN_LIST_REQUEST:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
 
     case ORDER_ADMIN_LIST_SUCCESS:
@@ -192,7 +192,7 @@ export const updateOrderToDeliveredReducer = (state = {}, action) => {
     case UPDATE_ORDER_TO_DELIVERED_ADMIN_REQUEST:
       return {
         ...state,
-        isLoading: false,
+        isLoading: true,
       };
 
     case UPDATE_ORDER_TO_DELIVERED_ADMIN_SUCCESS:
