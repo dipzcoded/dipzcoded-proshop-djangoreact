@@ -44,7 +44,6 @@ function AdminProductListScreen() {
     if (deleteSuccess) {
       dispatch({ type: PRODUCT_ADMIN_LIST_RESET });
       dispatch({ type: PRODUCT_ADMIN_LIST_DELETE_RESET });
-      dispatch(getProducts("admin", "", Number(page), 6));
     }
   }, [dispatch, userData, history, deleteSuccess, page]);
 
@@ -55,10 +54,6 @@ function AdminProductListScreen() {
     }
   };
 
-  const onCreate = (product) => {
-    // create product
-    console.log(product);
-  };
   return (
     <div>
       <Row className="align-items-center">

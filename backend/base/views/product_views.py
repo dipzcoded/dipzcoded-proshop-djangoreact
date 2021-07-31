@@ -47,6 +47,13 @@ def getProduct(request,slug):
     serializer = ProductSerializer(product,many=False)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+def getTopProduct(request):
+    products = Product.objects.filter(rating__gte=4).order_by('-rating')[0:5]
+    serializer = ProductSerializer(products,many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def createProductReview(request,slug):
@@ -94,10 +101,4 @@ def deleteProductById(request,pk):
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response('product deleted successfully!')
-
-
-
-
-    serializer = ProductSerializer(product,many=False)
-    return Response(serializer.data)
 

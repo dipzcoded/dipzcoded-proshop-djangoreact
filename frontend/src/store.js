@@ -7,6 +7,7 @@ import {
   productAdminListReducer,
   productAdminListDeleteReducer,
   createProductReviewReducer,
+  getTopProductReducer,
 } from "./reducers/products";
 import { cartReducers } from "./reducers/carts";
 import {
@@ -30,6 +31,7 @@ import Cookie from "js-cookie";
 const reducer = combineReducers({
   productsList: productListReducers,
   productById: productByIDReducers,
+  topRatedProducts: getTopProductReducer,
   cart: cartReducers,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

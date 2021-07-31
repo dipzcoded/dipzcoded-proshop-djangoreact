@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { useHistory } from "react-router-dom";
 import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
 
 function HomeScreen() {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ function HomeScreen() {
 
   return (
     <div>
+      {!keyword && <ProductCarousel />}
       <h1>Latest Products</h1>
       {isLoading && <Loader />}
       {!isLoading && error && <Message variant="danger">{error}</Message>}

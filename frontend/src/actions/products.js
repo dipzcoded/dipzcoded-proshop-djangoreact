@@ -16,6 +16,9 @@ import {
   PRODUCT_CREATE_REVIEW_FAIL,
   PRODUCT_CREATE_REVIEW_SUCCESS,
   PRODUCT_CREATE_REVIEW_REQUEST,
+  GET_TOP_PRODUCTS_FAIL,
+  GET_TOP_PRODUCTS_SUCCESS,
+  GET_TOP_PRODUCTS_REQUEST,
 } from "../types";
 
 export const getProducts =
@@ -55,6 +58,22 @@ export const getProducts =
       }
     }
   };
+
+export const getTopProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: GET_TOP_PRODUCTS_SUCCESS });
+    const { data } = await axios.get("/api/products/top/");
+    dispatch({ type: GET_TOP_PRODUCTS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: GET_TOP_PRODUCTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const getProductById = (id) => async (dispatch) => {
   try {
