@@ -19,16 +19,20 @@ import {
 } from "../types";
 
 export const getProducts =
-  (params = "default") =>
+  (params = "default", keyword = "", page = 1, numRes = 6) =>
   async (dispatch) => {
     try {
       if (params === "default") {
         dispatch({ type: GET_ALL_PRODUCTS_REQUEST });
-        const { data } = await axios.get("/api/products/");
+        const { data } = await axios.get(
+          `/api/products?keyword=${keyword}&page=${page}&numresults=${numRes}`
+        );
         dispatch({ type: GET_ALL_PRODUCTS_SUCCESS, payload: data });
       } else {
         dispatch({ type: PRODUCT_ADMIN_LIST_REQUEST });
-        const { data } = await axios.get("/api/products/");
+        const { data } = await axios.get(
+          `/api/products?keyword=${keyword}&page=${page}&numresults=${numRes}`
+        );
         dispatch({ type: PRODUCT_ADMIN_LIST_SUCCESS, payload: data });
       }
     } catch (error) {

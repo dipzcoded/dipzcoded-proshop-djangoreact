@@ -32,7 +32,9 @@ export const productListReducers = (state = {}, action) => {
       return {
         ...state,
         isLoading: false,
-        products: payload,
+        products: payload?.products,
+        page: payload?.page,
+        pages: payload?.pages,
         error: null,
       };
 
@@ -97,7 +99,9 @@ export const productAdminListReducer = (state = {}, action) => {
       return {
         ...state,
         isLoading: false,
-        products: payload,
+        products: payload?.products,
+        page: payload?.page,
+        pages: payload?.pages,
         error: null,
       };
 

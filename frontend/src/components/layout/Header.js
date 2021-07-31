@@ -3,6 +3,7 @@ import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/users";
+import SearchBox from "../SearchBox";
 
 function Header() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ function Header() {
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <SearchBox />
             <Nav className="ml-auto">{userData ? authUser : guestUser}</Nav>
           </Navbar.Collapse>
         </Container>
